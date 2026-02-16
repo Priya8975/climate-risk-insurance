@@ -58,6 +58,10 @@ GAMMA_FEATURES = [
     "median_household_income",
     "median_home_value",
     "pct_occupied_housing",
+    # Insurance / Policy features
+    "avg_premium",
+    "policy_count",
+    "claims_per_policy",
     # Macro indicators
     "MORTGAGE30US",
     "CSUSHPINSA",
@@ -116,6 +120,10 @@ def prepare_gamma_data(df: pd.DataFrame) -> tuple:
     X["median_home_value"] = X["median_home_value"] / 100000
     X["CPIAUCSL"] = X["CPIAUCSL"] / 100
     X["CSUSHPINSA"] = X["CSUSHPINSA"] / 100
+    if "avg_premium" in X.columns:
+        X["avg_premium"] = X["avg_premium"] / 1000  # per $1K
+    if "policy_count" in X.columns:
+        X["policy_count"] = X["policy_count"] / 10000  # per 10K policies
 
     feature_names = list(X.columns)
 
@@ -177,6 +185,10 @@ def prepare_tweedie_data(df: pd.DataFrame) -> tuple:
     X["median_home_value"] = X["median_home_value"] / 100000
     X["CPIAUCSL"] = X["CPIAUCSL"] / 100
     X["CSUSHPINSA"] = X["CSUSHPINSA"] / 100
+    if "avg_premium" in X.columns:
+        X["avg_premium"] = X["avg_premium"] / 1000
+    if "policy_count" in X.columns:
+        X["policy_count"] = X["policy_count"] / 10000
 
     feature_names = list(X.columns)
 
@@ -533,11 +545,15 @@ LOGISTIC_FEATURES = [
     "total_disasters_lag1",
     "claim_count_lag1",
     "avg_claim_severity_lag1",
+    "avg_loss_ratio_lag1",
     # Current disaster exposure
     "cum_disasters_3yr",
     "flood_count",
     "hurricane_count",
     "severe_storm_count",
+    # Insurance / Policy features
+    "avg_premium",
+    "claims_per_policy",
     # Demographics
     "total_population",
     "median_household_income",

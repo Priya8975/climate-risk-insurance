@@ -12,6 +12,7 @@ prophet>=1.1.4
 
 # Machine learning utilities
 scikit-learn>=1.3.0
+shap>=0.42.0
 
 # Visualization
 matplotlib>=3.7.0

@@ -10,6 +10,9 @@ total_population
 median_household_income
 median_home_value
 pct_occupied_housing
+avg_premium
+policy_count
+claims_per_policy
 MORTGAGE30US
 CSUSHPINSA
 CPIAUCSL

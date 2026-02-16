@@ -1,0 +1,2 @@
+severity_threshold,disaster_threshold,claims_paid_threshold,severity_quantile,disaster_quantile,claims_paid_quantile,min_signals,train_years_max
+24782.846150537633,5.0,61026.19,0.75,0.75,0.75,2,2021

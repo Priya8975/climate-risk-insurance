@@ -15,6 +15,8 @@ An end-to-end data science project analyzing 20 years of federal disaster data, 
 - Inflation (CPI) roughly **doubles expected claim payouts** per unit increase
 - FEMA Region 6 (TX, LA, AR, OK, NM) shows **154% higher claims** than the national baseline
 - A logistic regression with lagged features predicts county-level claims surges with **AUC-ROC = 0.73**
+- Gradient Boosting predicts county-level uninsurability risk with **AUC-ROC = 0.83** (test), **0.87** (5-fold CV)
+- **Louisiana** dominates the top risk rankings; FEMA Region 6 has highest median risk scores
 - SARIMA(0,1,2)(0,1,1,12) outperformed Prophet for disaster forecasting (AIC = 3028)
 
 ---
@@ -25,7 +27,7 @@ An end-to-end data science project analyzing 20 years of federal disaster data, 
 |--------|-----------|---------|--------|
 | 1 | **Disaster Trend Analysis** | SARIMA, Prophet, Time Series Decomposition | Complete |
 | 2 | **Insurance Claims Modeling** | Gamma GLM, Tweedie GLM, Logistic Regression | Complete |
-| 3 | **Uninsurability Risk Classification** | Gradient Boosting, Random Forest, SHAP | In Progress |
+| 3 | **Uninsurability Risk Classification** | Gradient Boosting, Random Forest, SHAP | Complete |
 | 4 | **Model Validation & Documentation** | Cross-validation, Sensitivity Analysis | Planned |
 
 ---
@@ -45,13 +47,15 @@ An end-to-end data science project analyzing 20 years of federal disaster data, 
 │   │   └── process_insurance_data.py   → County-year panel dataset construction
 │   ├── models/
 │   │   ├── disaster_time_series.py     → SARIMA & Prophet models
-│   │   └── insurance_glms.py           → Gamma GLM, Tweedie GLM, Logistic Regression
+│   │   ├── insurance_glms.py           → Gamma GLM, Tweedie GLM, Logistic Regression
+│   │   └── uninsurability_classifier.py → Gradient Boosting, Random Forest, SHAP
 │   └── utils/
 │       └── config.py                   → Centralized configuration & constants
 ├── notebooks/
 │   ├── 01_disaster_eda.ipynb           → Exploratory analysis & visualizations
 │   ├── 02_disaster_time_series.ipynb   → Time series modeling results
-│   └── 03_insurance_glm_results.ipynb  → GLM results & interpretation
+│   ├── 03_insurance_glm_results.ipynb  → GLM results & interpretation
+│   └── 04_uninsurability_classification.ipynb → ML classification & SHAP analysis
 ├── models/                 → Model coefficients, metrics & diagnostics
 ├── reports/figures/        → Saved visualizations
 └── requirements.txt
@@ -105,6 +109,27 @@ Built a county-year panel (25,415 rows × 65 features) by merging disaster count
 - AUC-ROC: 0.687 (test), 0.728 ± 0.015 (5-fold stratified CV)
 - Balanced class weights to handle class imbalance (~15% surge rate)
 
+### Module 3: Uninsurability Risk Classification
+
+**Composite Risk Target:**
+Constructed a binary "uninsurability risk" label from four signals: high claim severity (top quartile), high cumulative disasters (top quartile), FEMA Housing Assistance damage, and high total claims paid (top quartile). Counties meeting >=2 criteria are labeled high-risk (~18% positive rate). Thresholds computed from training data only to prevent leakage.
+
+**Gradient Boosting Classifier (primary):**
+- 300 trees, max_depth=5, learning_rate=0.1, subsample=0.8
+- Balanced sample weights for class imbalance handling
+- 32 predictive features (no current-year claims — genuine out-of-sample)
+- AUC-ROC: 0.83 (test), 0.87 ± 0.01 (5-fold stratified CV)
+- Top risk drivers: cumulative disaster exposure, population, lagged claims
+
+**Random Forest Classifier (comparison):**
+- 500 trees, max_depth=10, balanced_subsample class weights
+- AUC-ROC: 0.82 (test), 0.86 ± 0.01 (5-fold stratified CV)
+
+**SHAP Explainability:**
+- TreeExplainer for global and local feature importance
+- Beeswarm and dependence plots for top risk drivers
+- County-level risk scoring across all 3,240 counties
+
 ---
 
 ## Setup & Usage
@@ -140,6 +165,9 @@ python -m src.data.fetch_external_data      # Fetch Census ACS + FRED data
 python -m src.data.process_insurance_data   # Build county-year panel dataset
 python -m src.models.insurance_glms         # Fit Gamma, Tweedie & Logistic models
 
+# Module 3: ML Classification
+python -m src.models.uninsurability_classifier  # Gradient Boosting, Random Forest, SHAP
+
 # Explore Results
 jupyter notebook notebooks/
 ```
@@ -156,6 +184,9 @@ Results notebooks include:
 - ROC and Precision-Recall curves for claims surge prediction
 - Residual diagnostic panels (QQ, scale-location, residuals vs fitted)
 - Top-risk county rankings
+- SHAP beeswarm and dependence plots for ML feature importance
+- County-level risk score choropleth maps
+- Risk distribution by FEMA region
 
 ---
 
@@ -165,6 +196,7 @@ Results notebooks include:
 |----------|-------|
 | **Data Processing** | pandas, numpy, requests, tqdm |
 | **Statistical Modeling** | statsmodels (GLMs), scikit-learn (Logistic Regression, CV) |
+| **ML & Explainability** | scikit-learn (Gradient Boosting, Random Forest, GridSearchCV), SHAP |
 | **Time Series** | statsmodels SARIMAX, Prophet |
 | **Visualization** | matplotlib, seaborn, plotly |
 | **Environment** | Python 3.9, Jupyter, venv |
