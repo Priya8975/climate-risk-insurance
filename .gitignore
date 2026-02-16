@@ -38,9 +38,9 @@ Thumbs.db
 .env
 .env.local
 
-# Reports (generated)
-reports/figures/*.png
+# Reports (generated — allow README showcase figures)
 reports/figures/*.html
+!reports/figures/.gitkeep
 
 # Personal learning docs (not for GitHub)
 NEWWW_Learning_Guide.md

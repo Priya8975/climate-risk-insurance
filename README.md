@@ -202,20 +202,53 @@ jupyter notebook notebooks/
 
 ## Selected Visualizations
 
-Results notebooks include:
-- Annual disaster trend analysis with seasonal decomposition
-- State/county heatmaps and interactive choropleth maps
-- GLM coefficient forest plots with confidence intervals
-- FEMA region effect comparisons
-- ROC and Precision-Recall curves for claims surge prediction
-- Residual diagnostic panels (QQ, scale-location, residuals vs fitted)
-- Top-risk county rankings
-- SHAP beeswarm and dependence plots for ML feature importance
-- County-level risk score choropleth maps
-- Risk distribution by FEMA region
-- Sensitivity analysis heatmaps and feature ablation charts
-- Geographic and temporal robustness plots
-- Calibration reliability diagrams
+### Module 1: Disaster Trends (2004–2024)
+
+<p align="center">
+  <img src="reports/figures/annual_disaster_trends.png" width="100%" alt="Annual Disaster Trends">
+</p>
+
+> Disaster declarations increased 45% over the study period, with 2020 seeing record-breaking events across 3,000+ counties.
+
+### Module 2: Insurance Claims — What Drives Severity?
+
+<p align="center">
+  <img src="reports/figures/gamma_forest_plot.png" width="85%" alt="Gamma GLM Forest Plot">
+</p>
+
+> Gamma GLM forest plot showing multiplicative effects on claim severity. CPI (inflation) roughly doubles payouts; each flood event adds 28.6%.
+
+### Module 3: Uninsurability Risk Classification
+
+<p align="center">
+  <img src="reports/figures/classification_roc_curves.png" width="48%" alt="ROC Curves">&nbsp;&nbsp;
+  <img src="reports/figures/shap_feature_importance.png" width="48%" alt="SHAP Feature Importance">
+</p>
+
+> **Left:** Gradient Boosting (AUC = 0.83) outperforms Random Forest (AUC = 0.82) for uninsurability risk prediction. **Right:** SHAP analysis reveals cumulative disaster exposure, population, and lagged claims as top risk drivers.
+
+<p align="center">
+  <img src="reports/figures/top_risk_counties.png" width="85%" alt="Top Risk Counties">
+</p>
+
+> Louisiana dominates the top 20 at-risk counties, with Florida and Texas also heavily represented. All top counties exceed 85% predicted risk probability.
+
+### Module 4: Model Validation & Robustness
+
+<p align="center">
+  <img src="reports/figures/sensitivity_thresholds_heatmap.png" width="48%" alt="Sensitivity Heatmap">&nbsp;&nbsp;
+  <img src="reports/figures/geographic_cv_by_region.png" width="48%" alt="Geographic CV">
+</p>
+
+> **Left:** AUC-ROC remains strong (0.73–0.95) across 16 threshold configurations, confirming robust target construction. **Right:** Leave-one-FEMA-region-out CV shows consistent performance (mean AUC = 0.80) across all 10 U.S. regions.
+
+<p align="center">
+  <img src="reports/figures/temporal_stability.png" width="65%" alt="Temporal Stability">
+</p>
+
+> Expanding-window validation (2017–2023) demonstrates stable AUC-ROC over time — the model generalizes across climate regimes.
+
+*Additional visualizations (30+ total) are available in the [notebooks/](notebooks/) directory.*
 
 ---
 
