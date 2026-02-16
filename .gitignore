@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (too large for git)
+data/raw/
+data/processed/
+data/interim/
+data/external/*.csv
+!data/external/.gitkeep
+
+# Models (too large for git)
+models/*.pkl
+models/*.joblib
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+
+# Reports (generated)
+reports/figures/*.png
+reports/figures/*.html
+
+# Personal learning docs (not for GitHub)
+NEWWW_Learning_Guide.md
+*_Learning_Guide.md
+
+# Claude Code
+.claude/
