@@ -148,7 +148,7 @@ if page == "Overview":
         st.metric("Counties Analyzed", f"{n_counties:,}")
     with col3:
         gb_auc = data["comparison"][
-            data["comparison"]["model"] == "GradientBoosting"
+            data["comparison"]["model"] == "Gradient Boosting"
         ]["auc_roc"].values[0]
         st.metric("Best Model AUC", f"{gb_auc:.3f}")
     with col4:
@@ -399,10 +399,10 @@ elif page == "Model Performance":
     roc = data["roc"]
     fig_roc = go.Figure()
     gb_auc = data["comparison"][
-        data["comparison"]["model"] == "GradientBoosting"
+        data["comparison"]["model"] == "Gradient Boosting"
     ]["auc_roc"].values[0]
     rf_auc = data["comparison"][
-        data["comparison"]["model"] == "RandomForest"
+        data["comparison"]["model"] == "Random Forest"
     ]["auc_roc"].values[0]
 
     fig_roc.add_trace(go.Scatter(
