@@ -46,5 +46,6 @@ reports/figures/*.html
 NEWWW_Learning_Guide.md
 *_Learning_Guide.md
 
-# Claude Code
-.claude/
+# Local tool config
+.local/
+.tool/
