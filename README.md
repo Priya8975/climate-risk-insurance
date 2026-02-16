@@ -60,6 +60,7 @@ An end-to-end data science project analyzing 20 years of federal disaster data, 
 │   └── 05_model_validation.ipynb            → Validation results & visualizations
 ├── models/                 → Model coefficients, metrics & diagnostics
 ├── reports/figures/        → Saved visualizations
+├── app.py                  → Interactive Streamlit dashboard
 └── requirements.txt
 ```
 
@@ -252,6 +253,23 @@ jupyter notebook notebooks/
 
 ---
 
+## Interactive Dashboard
+
+An interactive Streamlit dashboard provides live exploration of all results:
+
+```bash
+streamlit run app.py
+```
+
+**Dashboard Pages:**
+- **Overview** — Key metrics, cross-module performance summary
+- **Disaster Explorer** — Interactive choropleth maps, trends by type/year/state
+- **Risk Rankings** — County-level risk scores, filterable tables, FEMA region distributions
+- **Model Performance** — Interactive ROC curves, SHAP importance, GLM coefficients
+- **Validation & Robustness** — Sensitivity heatmaps, geographic CV, temporal stability
+
+---
+
 ## Tech Stack
 
 | Category | Tools |
@@ -261,6 +279,7 @@ jupyter notebook notebooks/
 | **ML & Explainability** | scikit-learn (Gradient Boosting, Random Forest, GridSearchCV), SHAP |
 | **Time Series** | statsmodels SARIMAX, Prophet |
 | **Visualization** | matplotlib, seaborn, plotly |
+| **Dashboard** | Streamlit |
 | **Environment** | Python 3.9, Jupyter, venv |
 
 ---
