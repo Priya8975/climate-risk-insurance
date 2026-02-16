@@ -28,7 +28,7 @@ An end-to-end data science project analyzing 20 years of federal disaster data, 
 | 1 | **Disaster Trend Analysis** | SARIMA, Prophet, Time Series Decomposition | Complete |
 | 2 | **Insurance Claims Modeling** | Gamma GLM, Tweedie GLM, Logistic Regression | Complete |
 | 3 | **Uninsurability Risk Classification** | Gradient Boosting, Random Forest, SHAP | Complete |
-| 4 | **Model Validation & Documentation** | Cross-validation, Sensitivity Analysis | Planned |
+| 4 | **Model Validation & Documentation** | Sensitivity Analysis, Geographic CV, Calibration | Complete |
 
 ---
 
@@ -48,14 +48,16 @@ An end-to-end data science project analyzing 20 years of federal disaster data, 
 │   ├── models/
 │   │   ├── disaster_time_series.py     → SARIMA & Prophet models
 │   │   ├── insurance_glms.py           → Gamma GLM, Tweedie GLM, Logistic Regression
-│   │   └── uninsurability_classifier.py → Gradient Boosting, Random Forest, SHAP
+│   │   ├── uninsurability_classifier.py → Gradient Boosting, Random Forest, SHAP
+│   │   └── model_validation.py          → Sensitivity analysis, robustness, calibration
 │   └── utils/
 │       └── config.py                   → Centralized configuration & constants
 ├── notebooks/
 │   ├── 01_disaster_eda.ipynb           → Exploratory analysis & visualizations
 │   ├── 02_disaster_time_series.ipynb   → Time series modeling results
 │   ├── 03_insurance_glm_results.ipynb  → GLM results & interpretation
-│   └── 04_uninsurability_classification.ipynb → ML classification & SHAP analysis
+│   ├── 04_uninsurability_classification.ipynb → ML classification & SHAP analysis
+│   └── 05_model_validation.ipynb            → Validation results & visualizations
 ├── models/                 → Model coefficients, metrics & diagnostics
 ├── reports/figures/        → Saved visualizations
 └── requirements.txt
@@ -130,6 +132,27 @@ Constructed a binary "uninsurability risk" label from four signals: high claim s
 - Beeswarm and dependence plots for top risk drivers
 - County-level risk scoring across all 3,240 counties
 
+### Module 4: Model Validation & Documentation
+
+**Sensitivity Analysis:**
+- Tested composite target across **16 threshold configurations** (4 quantiles × 4 min_signals); model AUC robust across configurations
+- Feature ablation across 5 groups: disaster features are the most critical group
+- Claims surge threshold sensitivity (25%–100% YoY)
+
+**Robustness Checks:**
+- **Leave-one-FEMA-region-out CV** (10 geographic folds): consistent performance across all regions
+- **Expanding-window temporal validation** (7 year splits, 2017–2023): stable AUC across time periods
+- **KS tests** for train/test distribution shift: 17/22 features shifted, but model remains robust
+- Prediction stability across 5 CV folds: low variance in predictions
+
+**Calibration:**
+- Reliability diagrams and Expected Calibration Error (ECE) for both classifiers
+- Gradient Boosting shows better calibration than Random Forest
+
+**Cross-Module Summary:**
+- Unified report consolidating metrics from all 8 models across 3 modules
+- Performance breakdown by FEMA region and test year
+
 ---
 
 ## Setup & Usage
@@ -168,6 +191,9 @@ python -m src.models.insurance_glms         # Fit Gamma, Tweedie & Logistic mode
 # Module 3: ML Classification
 python -m src.models.uninsurability_classifier  # Gradient Boosting, Random Forest, SHAP
 
+# Module 4: Model Validation
+python -m src.models.model_validation           # Sensitivity, robustness, calibration
+
 # Explore Results
 jupyter notebook notebooks/
 ```
@@ -187,6 +213,9 @@ Results notebooks include:
 - SHAP beeswarm and dependence plots for ML feature importance
 - County-level risk score choropleth maps
 - Risk distribution by FEMA region
+- Sensitivity analysis heatmaps and feature ablation charts
+- Geographic and temporal robustness plots
+- Calibration reliability diagrams
 
 ---
 

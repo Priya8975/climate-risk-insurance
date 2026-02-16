@@ -1,0 +1,9 @@
+module,model_name,primary_metric,metric_value,cv_metric,cv_std,notes
+1,SARIMA/Prophet,RMSE,,,,Time series forecasting
+1,SARIMA/Prophet,RMSE,,,,Time series forecasting
+1,SARIMA/Prophet,RMSE,,,,Time series forecasting
+2,Gamma GLM,Test RMSE,42436.65290736697,,,AIC=93903.6727459074
+2,Tweedie (p=1.1),Test RMSE,30407.76186342992,,,AIC=991337.785742394
+2,Logistic Regression,AUC-ROC,0.6729730394871226,0.699129504527333,0.0096945908726456,Claims surge prediction
+3,Gradient Boosting,AUC-ROC,0.8292592989206024,0.8734721786587745,0.0102073530466116,Brier=0.1713115673434374
+3,Random Forest,AUC-ROC,0.8228335239202519,0.8606317391367316,0.0067401767352624,Brier=0.1851554849914505
