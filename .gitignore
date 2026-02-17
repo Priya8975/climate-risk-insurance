@@ -16,9 +16,12 @@ env/
 .ipynb_checkpoints/
 
 # Data files (too large for git)
-data/raw/
-data/processed/
-data/interim/
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
 data/external/*.csv
 !data/external/.gitkeep
 
