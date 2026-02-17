@@ -161,14 +161,40 @@ if page == "Overview":
     st.subheader("Cross-Module Performance Summary")
     summary = data["cross_module"].copy()
     display_cols = [c for c in summary.columns if c != "Unnamed: 0"]
-    st.dataframe(
-        summary[display_cols].style.format(
-            {c: "{:.3f}" for c in display_cols if summary[c].dtype == "float64"},
-            na_rep="—",
-        ),
-        use_container_width=True,
-        hide_index=True,
+    summary = summary[display_cols]
+
+    # Clean up: deduplicate SARIMA rows, round notes, rename columns
+    summary = summary.drop_duplicates(
+        subset=["module", "model_name", "primary_metric"], keep="first"
     )
+    summary["notes"] = summary["notes"].apply(
+        lambda x: x if pd.isna(x)
+        else "AIC = {:,.0f}".format(float(x.split("=")[1])) if "AIC=" in str(x)
+        else "Brier = {:.3f}".format(float(x.split("=")[1])) if "Brier=" in str(x)
+        else x
+    )
+    summary = summary.rename(columns={
+        "module": "Module",
+        "model_name": "Model",
+        "primary_metric": "Metric",
+        "metric_value": "Test Score",
+        "cv_metric": "CV Score",
+        "cv_std": "CV Std",
+        "notes": "Notes",
+    })
+    summary["Test Score"] = summary["Test Score"].apply(
+        lambda x: f"{x:,.1f}" if pd.notna(x) and x > 10 else
+        (f"{x:.3f}" if pd.notna(x) else "—")
+    )
+    summary["CV Score"] = summary["CV Score"].apply(
+        lambda x: f"{x:.3f}" if pd.notna(x) else "—"
+    )
+    summary["CV Std"] = summary["CV Std"].apply(
+        lambda x: f"{x:.3f}" if pd.notna(x) else "—"
+    )
+    summary["Notes"] = summary["Notes"].fillna("—")
+
+    st.dataframe(summary, use_container_width=True, hide_index=True)
 
     # Project description
     st.markdown("---")
