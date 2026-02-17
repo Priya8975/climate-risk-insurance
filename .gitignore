@@ -20,6 +20,8 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/disasters_cleaned.csv
+!data/processed/disasters_county_year.csv
 data/interim/*
 !data/interim/.gitkeep
 data/external/*.csv
