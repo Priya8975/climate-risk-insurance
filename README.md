@@ -6,6 +6,8 @@ An end-to-end data science project analyzing 20 years of federal disaster data, 
 
 **Author:** Priya More
 
+**[Live Dashboard](https://priya8975-climate-risk-insurance.streamlit.app/)** | **[GitHub Repo](https://github.com/Priya8975/climate-risk-insurance)**
+
 ---
 
 ## Key Findings
@@ -255,9 +257,12 @@ jupyter notebook notebooks/
 
 ## Interactive Dashboard
 
+**[Explore the Live Dashboard](https://priya8975-climate-risk-insurance.streamlit.app/)**
+
 An interactive Streamlit dashboard provides live exploration of all results:
 
 ```bash
+# Or run locally:
 streamlit run app.py
 ```
 
